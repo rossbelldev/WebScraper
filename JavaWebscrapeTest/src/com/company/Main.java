@@ -14,10 +14,11 @@ public class Main {
         Elements matches = document.select(".matches .upcoming-matches .upcoming-match");
         for (Element match : matches) {
             //Need to have a way to break up the teams, time, event, remove the A. then print between the --
-            Element name1 = document.select(".matches .upcoming-matches .upcoming-match .team").first();
-            System.out.println(name1);
+            Element name = document.select(".matches .upcoming-matches .upcoming-match .team").first();
+            String nameOnly = name.text();
 
             System.out.println("------------------------------------------------------");
+            System.out.println(nameOnly);
             System.out.println(match.text());
             System.out.println("------------------------------------------------------\n");
         }
