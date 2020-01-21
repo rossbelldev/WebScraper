@@ -20,19 +20,31 @@ public class Main {
 
             int teamCount = 0;
 
-            //.match-page .teamsBox .timeAndEvent .time - the time
-
+            Element gameTime = doc.select(".match-page .teamsBox .timeAndEvent .time").first();
+            Element eventName = doc.select(".match-page .teamsBox .timeAndEvent .event a").first();
             Elements tNames = doc.select(".match-page .teamName");
+
             System.out.println("----------------------------------------");
             for(Element tName : tNames){
                 teamCount++;
                 if(teamCount < 3){
+
                     System.out.println(tName.text());
+
                     if(teamCount == 1){
                         System.out.println(" vs ");
                     }
+                    else if(teamCount == 2){
+                        System.out.println("\nTime: " + gameTime.text());
+                        System.out.println("Event: " + eventName.text());
+                    }
+
                 }
+
             }
+
+
+
 
 
         /*
