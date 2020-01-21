@@ -11,15 +11,21 @@ public class Main {
         String url = "https://www.hltv.org/matches";
         Document document = Jsoup.connect(url).userAgent("JeanRean").get();
 
+        //This section is a work in progrss
         Elements links = document.select(".matches .match a");
         for (Element link : links) {
 
             String relHref = link.absUrl("href");
             Document doc = Jsoup.connect(relHref).userAgent("JeanRean").get();
 
+            int teamCount = 0;
+
             Elements tNames = doc.select(".match-page .teamName");
             for(Element tName : tNames){
-                System.out.println(tName.text());
+                teamCount++;
+                if(teamCount < 3){
+                    System.out.println(tName.text());
+                }
             }
 
 
@@ -44,11 +50,6 @@ public class Main {
                 }
             }
             */
-
-
-
-
-
 
             /*
             System.out.println("------------------------------------------------------");
