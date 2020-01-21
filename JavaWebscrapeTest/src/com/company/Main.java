@@ -20,14 +20,19 @@ public class Main {
 
             int teamCount = 0;
 
+            //.match-page .teamsBox .timeAndEvent .time - the time
+
             Elements tNames = doc.select(".match-page .teamName");
+            System.out.println("----------------------------------------");
             for(Element tName : tNames){
                 teamCount++;
                 if(teamCount < 3){
                     System.out.println(tName.text());
+                    if(teamCount == 1){
+                        System.out.println(" vs ");
+                    }
                 }
             }
-
 
 
         /*
