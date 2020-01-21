@@ -5,8 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -23,12 +21,9 @@ public class Main {
             int teamCount = 0;
 
             Element gameTime = doc.select(".match-page .teamsBox .timeAndEvent .time").first();
-            Element gameDate = doc.select(".match-page .teamsBox .timeAndEvent .date").first();
             Element eventName = doc.select(".match-page .teamsBox .timeAndEvent .event a").first();
             Elements tNames = doc.select(".match-page .teamName");
-            Elements teamPlayers = doc.select(".match-page .lineups .player");
 
-            ArrayList<String> players = new ArrayList<String>();
             System.out.println("----------------------------------------");
             for(Element tName : tNames){
                 teamCount++;
@@ -38,21 +33,15 @@ public class Main {
 
                     if(teamCount == 1){
                         System.out.println(" vs ");
-                        //team1 = and team2 =
                     }
                     else if(teamCount == 2){
                         System.out.println("\nTime: " + gameTime.text());
-                        System.out.println("Date: " + gameDate.text());
-                        System.out.println("Event: " + eventName.text() + "\n");
-                        players.add(teamPlayers.text());
+                        System.out.println("Event: " + eventName.text());
                     }
 
                 }
 
             }
-
-            System.out.println("Players:");
-            players.forEach((n) -> System.out.println(n));
 
 
 
