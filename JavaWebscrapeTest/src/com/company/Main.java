@@ -26,24 +26,31 @@ public class Main {
             Element gameDate = doc.select(".match-page .teamsBox .timeAndEvent .date").first();
             Element eventName = doc.select(".match-page .teamsBox .timeAndEvent .event a").first();
             Elements tNames = doc.select(".match-page .teamName");
+            Element gameLink = doc.select(".match-page .streams .hltv-live a").first();
             Elements teamPlayers = doc.select(".match-page .lineups .player");
 
             ArrayList<String> players = new ArrayList<String>();
+
             System.out.println("----------------------------------------");
+
+            String team1 ="";
+            String team2 ="";
+
             for(Element tName : tNames){
                 teamCount++;
                 if(teamCount < 3){
-
-                    System.out.println(tName.text());
-
                     if(teamCount == 1){
-                        System.out.println(" vs ");
-                        //team1 = and team2 =
+                        team1 = tName.text();
                     }
                     else if(teamCount == 2){
-                        System.out.println("\nTime: " + gameTime.text());
-                        System.out.println("Date: " + gameDate.text());
-                        System.out.println("Event: " + eventName.text() + "\n");
+                        String gameHref = gameLink.absUrl("href");
+                        team2 = tName.text();
+                        String time = gameTime.text();
+                        String date = gameDate.text();
+                        String event = eventName.text();
+
+                        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref);
+
                         players.add(teamPlayers.text());
                     }
 
@@ -54,38 +61,6 @@ public class Main {
             System.out.println("Players:");
             players.forEach((n) -> System.out.println(n));
 
-
-
-
-
-        /*
-        Elements matches = document.select(".matches .upcoming-matches .upcoming-match");
-        for (Element match : matches) {
-            //Need to have a way to break up the teams, time, event, remove the A. then print between the --
-            Element name = document.select(".matches .upcoming-matches .upcoming-match .team").first();
-            String nameOnly = name.text();
-
-            Elements links = document.select(".matches .match a");
-            for(Element link : links){
-                //Need to reorganise completely. Needs to have
-                String relHref = link.absUrl("href");
-                Document doc = Jsoup.connect(relHref).userAgent("JeanRean").get();
-                Elements tNames = doc.select(".match-page .teamName");
-
-                for(Element tName : tNames){
-                    System.out.println(tName.text());
-                    System.out.println("\n");
-                }
-            }
-            */
-
-            /*
-            System.out.println("------------------------------------------------------");
-            System.out.println(nameOnly);
-            System.out.println(match.text());
-            System.out.println(relHref);
-            System.out.println("------------------------------------------------------\n");
-             */
         }
 
     }
