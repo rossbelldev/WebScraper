@@ -13,10 +13,8 @@ public class Main {
         String url = "https://www.hltv.org/matches";
         Document document = Jsoup.connect(url).userAgent("JeanRean").get();
 
-        //This section is a work in progrss
         Elements links = document.select(".matches .match a");
         for (Element link : links) {
-
             String relHref = link.absUrl("href");
             Document doc = Jsoup.connect(relHref).userAgent("JeanRean").get();
 
@@ -29,12 +27,7 @@ public class Main {
             Element gameLink = doc.select(".match-page .streams .hltv-live a").first();
             Elements teamPlayers = doc.select(".match-page .lineups .player");
 
-            ArrayList<String> players = new ArrayList<>();
-
-
-
             String team1 ="";
-            String team2 ="";
 
             for(Element tName : tNames){
                 teamCount++;
@@ -43,21 +36,28 @@ public class Main {
                         team1 = tName.text();
                     }
                     else if(teamCount == 2){
-                        String gameHref = gameLink.absUrl("href");
-                        team2 = tName.text();
-                        String time = gameTime.text();
-                        String date = gameDate.text();
-                        String event = eventName.text();
-                        players.add(teamPlayers.text());
+                        Match match = new Match();
 
-                        System.out.println("----------------------------------------");
-                        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref + "\n\nPlayers: ");
-                        players.forEach((n) -> System.out.println(n));
-                        System.out.println("----------------------------------------\n\n");
+                        match.team1 = team1;
+                        match.team2 = tName.text();
+                        match.gameHref = gameLink.absUrl("href");
+                        match.time = gameTime.text();
+                        match.date = gameDate.text();
+                        match.event = eventName.text();
+                        match.players.add(teamPlayers.text());
+
+                        displayGameInfo(match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
                     }
                 }
             }
 
         }
+    }
+
+    public static void displayGameInfo(String team1, String team2, String time, String date, String event, String gameHref, ArrayList<String> players){
+        System.out.println("----------------------------------------");
+        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref + "\n\nPlayers: ");
+        players.forEach((n) -> System.out.println(n));
+        System.out.println("----------------------------------------\n\n");
     }
 }
