@@ -29,9 +29,9 @@ public class Main {
             Element gameLink = doc.select(".match-page .streams .hltv-live a").first();
             Elements teamPlayers = doc.select(".match-page .lineups .player");
 
-            ArrayList<String> players = new ArrayList<String>();
+            ArrayList<String> players = new ArrayList<>();
 
-            System.out.println("----------------------------------------");
+
 
             String team1 ="";
             String team2 ="";
@@ -48,21 +48,16 @@ public class Main {
                         String time = gameTime.text();
                         String date = gameDate.text();
                         String event = eventName.text();
-
-                        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref);
-
                         players.add(teamPlayers.text());
+
+                        System.out.println("----------------------------------------");
+                        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref + "\n\nPlayers: ");
+                        players.forEach((n) -> System.out.println(n));
+                        System.out.println("----------------------------------------\n\n");
                     }
-
                 }
-
             }
 
-            System.out.println("Players:");
-            players.forEach((n) -> System.out.println(n));
-
         }
-
     }
-
 }
