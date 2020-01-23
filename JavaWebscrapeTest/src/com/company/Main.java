@@ -8,7 +8,6 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
 
@@ -82,10 +81,11 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter game ID to view more info:");
-        int userInput;
+        int userInput = Integer.parseInt(br.readLine());
+
         try {
-            userInput = Integer.parseInt(br.readLine());
             for(Match match : matchList){
+
                 if(match.gameId == userInput){
                     displayGameInfo(match.gameId,match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
                 }
@@ -94,7 +94,27 @@ public class Main {
         catch(NumberFormatException nfe) {
             System.err.println("Invalid Format!");
         }
+
     }
+
+    /*
+    public static boolean input(int userInput, ArrayList<Match> matchList){
+        boolean success = false;
+        try {
+            for(Match match : matchList){
+                if(match.gameId == userInput){
+                    success = true;
+                    displayGameInfo(match.gameId,match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
+                }
+            }
+        }
+        catch(NumberFormatException nfe) {
+            System.err.println("Invalid Format!");
+            success = false;
+        }
+        return success;
+    }
+     */
 
     public static void displayGameInfoThumbnail(int id, String t1, String t2, String time){
         System.out.println("----------------------------------------");
