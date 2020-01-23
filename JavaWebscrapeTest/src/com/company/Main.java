@@ -5,13 +5,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         String url = "https://www.hltv.org/matches";
         Document document = Jsoup.connect(url).userAgent("JeanRean").get();
+
+        int id = 0;
+        ArrayList<Match> matchList = new ArrayList<Match>();
 
         Elements links = document.select(".matches .match a");
         for (Element link : links) {
@@ -26,7 +32,7 @@ public class Main {
             Elements teamPlayers = doc.select(".match-page .lineups .player");
 
             //Need to have something which sorts by date?
-
+            id++;
             String team1 ="";
             String team2 ="";
             int teamCount = 0;
@@ -54,27 +60,52 @@ public class Main {
                         else{
                             match.team2 = tName.text();
                         }
-                        match.time = gameTime.text();
-                        match.date = gameDate.text();
-                        match.event = eventName.text();
-                        match.players.add(teamPlayers.text());
                         try{
                             match.gameHref = gameLink.absUrl("href");
                         }
                         catch(Exception e){
                             match.gameHref = "Not Avaliable";
                         }
+                        match.time = gameTime.text();
+                        match.date = gameDate.text();
+                        match.event = eventName.text();
+                        match.players.add(teamPlayers.text());
+                        match.gameId = id;
 
-                        displayGameInfo(match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
+                        matchList.add(match);
+
+                        displayGameInfoThumbnail(match.gameId,match.team1,match.team2,match.time);
                     }
                 }
             }
         }
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter game ID to view more info:");
+        int userInput;
+        try {
+            userInput = Integer.parseInt(br.readLine());
+            for(Match match : matchList){
+                if(match.gameId == userInput){
+                    displayGameInfo(match.gameId,match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
+                }
+            }
+        }
+        catch(NumberFormatException nfe) {
+            System.err.println("Invalid Format!");
+        }
     }
 
-    public static void displayGameInfo(String team1, String team2, String time, String date, String event, String gameHref, ArrayList<String> players){
+    public static void displayGameInfoThumbnail(int id, String t1, String t2, String time){
         System.out.println("----------------------------------------");
-        System.out.println(team1 + " vs " + team2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + gameHref + "\n\nPlayers: ");
+        System.out.println(id + "\t" + t1 + " vs " + t2 + "\t\tTime: " + time);
+        System.out.println("----------------------------------------\n");
+    }
+
+
+    public static void displayGameInfo(int id, String t1, String t2, String time, String date, String event, String href, ArrayList<String> players){
+        System.out.println("----------------------------------------");
+        System.out.println(id + "\n" + t1 + " vs " + t2 + "\n\nTime: " + time + "\nDate: " + date + "\nEvent: " + event + "\n\nWhere to watch: " + href + "\n\nPlayers: ");
         players.forEach(System.out::println);
         System.out.println("----------------------------------------\n\n");
     }

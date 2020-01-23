@@ -10,4 +10,5 @@ public class Match {
     String event;
     String gameHref;
     ArrayList<String> players = new ArrayList<>();
+    int gameId;
 }
