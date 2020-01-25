@@ -83,15 +83,20 @@ public class Main {
 
         while(invalid){
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter game ID to view more info:");
+            System.out.println("Enter game ID to view more info, or 'exit' to exit:");
 
             try {
-                int userInput = Integer.parseInt(br.readLine());
-                for(Match match : matchList){
+                String userInputS = br.readLine();
+                if(userInputS.equals("exit")){
+                    invalid = false;
+                }
+                else{
+                    int userInput = Integer.parseInt(userInputS);
+                    for(Match match : matchList){
 
-                    if(match.gameId == userInput){
-                        displayGameInfo(match.gameId,match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
-                        invalid = false;
+                        if(match.gameId == userInput){
+                            displayGameInfo(match.gameId,match.team1,match.team2,match.time,match.date,match.event,match.gameHref,match.players);
+                        }
                     }
                 }
             }
